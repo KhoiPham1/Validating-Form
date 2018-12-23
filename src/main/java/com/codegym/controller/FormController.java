@@ -1,0 +1,32 @@
+package com.codegym.controller;
+
+import com.codegym.model.User;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
+import org.springframework.validation.annotation.Validated;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.servlet.ModelAndView;
+
+@Controller("/")
+public class FormController {
+    @GetMapping("/")
+    public String showForm(Model model){
+        model.addAttribute("user",new User());
+        return "index";
+    }
+
+    @PostMapping("/")
+    public String checkValidation(@Validated @ModelAttribute("user")User user, BindingResult bindingResult){
+        if (bindingResult.hasFieldErrors()){
+            return "index";
+        }
+        return "result";
+    }
+}
+// tại sao view(index.html) không hứng trường name, age , user mà vẫn chạy
+//lát bỏ 3 file xml đổi thành file applicationInitalizer
+// xem lại trường age tại sao bỏ notempty thì lại chạy
+// controller ("/) là sao
